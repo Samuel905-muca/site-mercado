@@ -1,66 +1,86 @@
-index.html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Mercado Online</title>
-
-<style>
-body{
-font-family: Arial;
-background:#f4f4f4;
-text-align:center;
-}
-
-header{
-background:green;
-color:white;
-padding:20px;
-}
-
-.produto{
-background:white;
-margin:20px;
-padding:20px;
-border-radius:10px;
-display:inline-block;
-width:200px;
-}
-
-button{
-background:green;
-color:white;
-border:none;
-padding:10px;
-border-radius:5px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercado do Samuel</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 20px; background: #f4f4f4; }
+        h1 { text-align: center; color: #2c3e50; }
+        
+        /* Grid de Produtos */
+        .produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        .item { background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .item h3 { margin: 10px 0; font-size: 1.1em; }
+        .preco { color: #27ae60; font-weight: bold; font-size: 1.2em; }
+        button { background: #2980b9; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
+        
+        /* Carrinho */
+        .carrinho { margin-top: 30px; background: #fff; padding: 20px; border-radius: 8px; border: 2px solid #2980b9; }
+        .lista-carrinho { list-style: none; padding: 0; }
+        .lista-carrinho li { border-bottom: 1px solid #ddd; padding: 10px 0; display: flex; justify-content: space-between; }
+        .total { font-size: 1.5em; font-weight: bold; text-align: right; margin-top: 15px; }
+        .btn-pagar { background: #27ae60; font-size: 1.2em; padding: 15px; }
+    </style>
 </head>
-
 <body>
 
-<header>
-<h1>Mercado Online</h1>
-<p>Produtos alimentícios</p>
-</header>
+    <h1>🛒 Supermercado Online</h1>
 
-<div class="produto">
-<h3>Arroz</h3>
-<p>R$ 25,00</p>
-<button>Comprar</button>
-</div>
+    <div class="produtos">
+        <div class="item">
+            <h3>Arroz 5kg</h3>
+            <p class="preco">R$ 29,90</p>
+            <button onclick="adicionar('Arroz 5kg', 29.90)">Adicionar</button>
+        </div>
+        <div class="item">
+            <h3>Feijão 1kg</h3>
+            <p class="preco">R$ 8,50</p>
+            <button onclick="adicionar('Feijão 1kg', 8.50)">Adicionar</button>
+        </div>
+        <div class="item">
+            <h3>Óleo de Soja</h3>
+            <p class="preco">R$ 6,20</p>
+            <button onclick="adicionar('Óleo de Soja', 6.20)">Adicionar</button>
+        </div>
+        <div class="item">
+            <h3>Leite 1L</h3>
+            <p class="preco">R$ 5,40</p>
+            <button onclick="adicionar('Leite 1L', 5.40)">Adicionar</button>
+        </div>
+    </div>
 
-<div class="produto">
-<h3>Feijão</h3>
-<p>R$ 8,00</p>
-<button>Comprar</button>
-</div>
+    <div class="carrinho">
+        <h2>Seu Carrinho</h2>
+        <ul id="itens-carrinho" class="lista-carrinho">
+            </ul>
+        <div class="total">Total: R$ <span id="valor-total">0,00</span></div>
+        <button class="btn-pagar" onclick="finalizarPagamento()">Finalizar Pagamento</button>
+    </div>
 
-<div class="produto">
-<h3>Macarrão</h3>
-<p>R$ 6,00</p>
-<button>Comprar</button>
-</div>
+    <script>
+        let total = 0;
+        const lista = document.getElementById('itens-carrinho');
+        const displayTotal = document.getElementById('valor-total');
 
+        function adicionar(nome, preco) {
+            const li = document.createElement('li');
+            li.innerHTML = `<span>${nome}</span> <span>R$ ${preco.toFixed(2)}</span>`;
+            lista.appendChild(li);
+            
+            total += preco;
+            displayTotal.innerText = total.toFixed(2).replace('.', ',');
+        }
+
+        function finalizarPagamento() {
+            if (total === 0) {
+                alert("Seu carrinho está vazio!");
+            } else {
+                alert("Compra de R$ " + total.toFixed(2) + " finalizada com sucesso!");
+                // Aqui no futuro podemos integrar com Pix ou Cartão
+                location.reload(); // Reseta o carrinho
+            }
+        }
+    </script>
 </body>
 </html>
